@@ -17,8 +17,9 @@ public class SpriteSheet {
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
     private static final int spriteWidth = 16;
     private static final int spriteHeight = 16;
+    private static final int spriteSheetSize = 256;
 
-    public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", 256, 256, spriteWidth, spriteHeight);
+    public static SpriteSheet tiles = new SpriteSheet("/textures/classic.png", spriteSheetSize, spriteSheetSize, spriteWidth, spriteHeight);
 
     public SpriteSheet(String filePath, int sizeX, int sizeY, int x, int y) {
         SIZE_X = sizeX;

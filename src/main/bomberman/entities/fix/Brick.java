@@ -14,8 +14,4 @@ public class Brick extends Entity {
     public void update() {
 
     }
-
-    public void render(GraphicsContext graphicsContext) {
-
-    }
 }

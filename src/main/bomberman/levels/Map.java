@@ -4,7 +4,9 @@ import constants.Constant;
 import controller.EventHandler;
 import controller.GameLoop;
 import entities.Entity;
+import entities.fix.Brick;
 import entities.fix.Grass;
+import entities.fix.Portal;
 import entities.fix.Wall;
 import entities.player.Player;
 import graphics.Sprite;
@@ -24,8 +26,14 @@ public class Map {
     private static boolean sceneStarted;
     static Player player;
 
-    private static final List<Entity> movingObject = new ArrayList<Entity>();
-    private static final List<Entity> fixedObject = new ArrayList<Entity>();
+    private static final List<Entity> topLayer = new ArrayList<Entity>();
+    private static final List<Entity> midLayer = new ArrayList<Entity>();
+    private static final List<Entity> boardLayer = new ArrayList<Entity>();
+
+    private int mapWidth;
+    private int mapHeight;
+    private int mapLevel;
+
 
     static {
         sceneStarted = false;
@@ -37,6 +45,7 @@ public class Map {
         canvas = new Canvas(Constant.CANVAS_WIDTH, Constant.CANVAS_HEIGHT);
         root.getChildren().add(canvas);
         graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext.drawImage(Sprite.player_left_2, 10, 10);
         GameLoop.start(getGraphicsContext());
         createMap();
         EventHandler.attachEventHandler(scene);
@@ -54,10 +63,10 @@ public class Map {
                 } else {
                     object = new Grass(x, y, Sprite.grass);
                 }
-                fixedObject.add(object);
+                boardLayer.add(object);
             }
         }
-        setPlayer(new Player(1, 1, Sprite.player_right));
+        setPlayer(new Player(0, 0, Sprite.player_right));
 
     }
 
@@ -82,23 +91,66 @@ public class Map {
 
     public static void setPlayer(Player player) {
         Map.player = player;
-        movingObject.add(player);
+        topLayer.add(player);
     }
 
     public static boolean addMovingObject(Entity entity) {
-        if (!movingObject.contains(entity)) {
-            movingObject.add(entity);
+        if (!topLayer.contains(entity)) {
+            topLayer.add(entity);
             return true;
         } else {
             return false;
         }
     }
 
-    public static List<Entity> getMovingObject() {
-        return movingObject;
+    public static List<Entity> getTopLayer() {
+        return topLayer;
     }
 
-    public static List<Entity> getFixedObject() {
-        return fixedObject;
+    public static List<Entity> getBoardLayer() {
+        return boardLayer;
+    }
+
+    public static List<Entity> getMidLayer() {
+        return midLayer;
+    }
+
+    public void addEntity(char c, int x, int y) {
+        switch(c) {
+            case '#':
+                boardLayer.add(new Wall(x, y, Sprite.wall));
+                break;
+            case 'b':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                midLayer.add(new Brick(x, y, Sprite.brick));
+                break;
+            case 's':
+                break;
+            case 'f':
+                break;
+            case '*':
+                break;
+            case 'x':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                midLayer.add(new Portal(x, y, Sprite.portal));
+                topLayer.add(new Brick(x, y, Sprite.brick));
+                break;
+            case ' ':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                break;
+            case 'p':
+                topLayer.add(new Player(x, y, Sprite.player_right));
+                break;
+            case '1':
+                break;
+            case '2':
+                break;
+            case '3':
+                break;
+            case '4':
+                break;
+            case '5':
+                break;
+        }
     }
 }

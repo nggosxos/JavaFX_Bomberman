@@ -14,8 +14,4 @@ public class Wall extends Entity {
     public void update() {
 
     }
-
-    public void render(GraphicsContext graphicsContext) {
-        graphicsContext.drawImage(image, x_pos * 48, y_pos * 48);
-    }
 }

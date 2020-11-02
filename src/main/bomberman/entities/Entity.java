@@ -11,7 +11,9 @@ public abstract class Entity {
     protected Image image;
 
     public abstract void update();
-    public abstract void render(GraphicsContext graphicsContext);
+    public void render(GraphicsContext graphicsContext) {
+        graphicsContext.drawImage(image, x_pos * image.getWidth(), y_pos * image.getHeight());
+    }
     public void remove() {
         isRemoved = true;
     }

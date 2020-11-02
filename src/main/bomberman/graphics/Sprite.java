@@ -1,12 +1,14 @@
 package graphics;
 
+import constants.Constant;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
 public class Sprite {
-    private static final Image[][] spriteImages = SpriteSheet.tiles.scaleAll(3);
+
+    private static final Image[][] spriteImages = SpriteSheet.tiles.scaleAll(Constant.SCALE_RATIO);
 
     /*
 	|--------------------------------------------------------------------------
@@ -188,13 +190,8 @@ public class Sprite {
     }
 
     public static Image playSpriteAnimation(Image image_0, Image image_1, int animate, int time) {
-        int temp = animate % time;
         int delta = time / 2;
-        if (temp > delta) {
-            return image_0;
-        } else {
-            return image_1;
-        }
+        return (animate % time > delta) ? image_0 : image_1;
     }
 
 }

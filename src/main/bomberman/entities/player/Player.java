@@ -1,12 +1,8 @@
 package entities.player;
 
 import constants.Direction;
-import controller.GameLoop;
 import entities.AnimatedEntity;
-import entities.Entity;
-import graphics.Animations;
 import graphics.Sprite;
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -14,7 +10,6 @@ public class Player extends AnimatedEntity {
     private int bombCount;
     private boolean isMoving;
     private Direction currentDirection;
-    private Image[] player_up = {Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2};
     public Player(int x, int y, Image player) {
         x_pos = x;
         y_pos = y;
@@ -22,11 +17,12 @@ public class Player extends AnimatedEntity {
     }
 
     public void update() {
-
+        animation();
     }
 
+    @Override
     public void render(GraphicsContext graphicsContext) {
-        graphicsContext.drawImage(image, x_pos + image.getWidth() / 2, y_pos + image.getHeight() / 2);
+        graphicsContext.drawImage(image, x_pos, y_pos);
     }
 
     public void move(int steps, Direction direction) {
@@ -66,44 +62,24 @@ public class Player extends AnimatedEntity {
         switch(currentDirection) {
             case UP:
                 if (isMoving) {
-                    //image = playAnimation(player_up, 0.3);
-                    //image = Sprite.playSpriteAnimation(Sprite.player_up_1, Sprite.player_up_2, animate, 20);
-                } else {
-                    image = Sprite.player_up;
+                    image = Sprite.playSpriteAnimation(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 20);
                 }
                 break;
             case DOWN:
                 if (isMoving) {
-                    //image = Sprite.playSpriteAnimation(Sprite.player_down_1, Sprite.player_down_2, animate, 20);
-                }
-                else {
-                    image = Sprite.player_down;
+                    image = Sprite.playSpriteAnimation(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 20);
                 }
                 break;
             case RIGHT:
                 if (isMoving) {
-                    //image = Sprite.playSpriteAnimation(Sprite.player_right_1, Sprite.player_right_2, animate, 20);
-                } else {
-                    image = Sprite.player_right;
+                    image = Sprite.playSpriteAnimation(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 20);
                 }
                 break;
             case LEFT:
                 if (isMoving) {
-
-                    //image = Sprite.playSpriteAnimation(Sprite.player_left_1, Sprite.player_left_2, animate, 20);
-                } else {
-                    image = Sprite.player_left;
+                    image = Sprite.playSpriteAnimation(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 20);
                 }
                 break;
         }
-    }
-
-    private static Image playAnimation(Image[] images, double speed) {
-        double time = GameLoop.getCurrentAnimationTime();
-        return images[findCurrentFrame(time, images.length, speed)];
-    }
-
-    private static int findCurrentFrame(double time, int nFrames, double speed) {
-        return (int) (time % (nFrames * speed) * speed);
     }
 }
