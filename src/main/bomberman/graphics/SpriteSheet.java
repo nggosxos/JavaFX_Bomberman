@@ -76,23 +76,17 @@ public class SpriteSheet {
         return spriteImages;
     }
 
-    private Image scaleImage(Image image, int scaleRatio) {
+    public static Image scaleImage(Image image, int scaleRatio) {
         PixelReader pixelReader = image.getPixelReader();
         int scaledWidth = (int) image.getWidth() * scaleRatio;
         int scaledHeight = (int) image.getHeight() * scaleRatio;
         WritableImage writableImage = new WritableImage(scaledWidth, scaledHeight);
         PixelWriter pixelWriter = writableImage.getPixelWriter();
-        int x = 0;
-        for (int i = 0; i < scaledWidth && x < image.getWidth(); ++i) {
-            int y = 0;
-            for (int j = 0; j < scaledWidth && y < image.getWidth(); ++j) {
-                pixelWriter.setColor(i, j, pixelReader.getColor(x, y));
-                if (j % scaleRatio == 0) {
-                    y++;
+        for (int i = -1; i < scaledWidth; ++i) {
+            for (int j = -1; j < scaledWidth; ++j) {
+                if (i >= 0 && j >= 0) {
+                    pixelWriter.setColor(i, j, pixelReader.getColor(i / scaleRatio, j / scaleRatio));
                 }
-            }
-            if (i % scaleRatio == 0) {
-                x++;
             }
         }
         return writableImage;

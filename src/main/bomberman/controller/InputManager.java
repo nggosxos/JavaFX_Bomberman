@@ -1,9 +1,10 @@
 package controller;
-/*
+
+import constants.Constant;
 import constants.Direction;
-import entities.Player;
+import entities.player.Player;
 import javafx.scene.input.KeyCode;
-import map.Map;
+import levels.Map;
 
 import java.util.List;
 
@@ -13,19 +14,19 @@ public class InputManager {
         Player player = Map.getPlayer();
 
         if (keyBoardInputs.contains(KeyCode.UP) || keyBoardInputs.contains(KeyCode.W)) {
-            player.move(1, Direction.UP);
+            player.move(Constant.PLAYER_STEP, Direction.UP);
         }
 
         if (keyBoardInputs.contains(KeyCode.DOWN) || keyBoardInputs.contains(KeyCode.S)) {
-            player.move(1, Direction.DOWN);
+            player.move(Constant.PLAYER_STEP, Direction.DOWN);
         }
 
         if (keyBoardInputs.contains(KeyCode.LEFT) || keyBoardInputs.contains(KeyCode.A)) {
-            player.move(1, Direction.LEFT);
+            player.move(Constant.PLAYER_STEP, Direction.LEFT);
         }
 
         if (keyBoardInputs.contains(KeyCode.RIGHT) || keyBoardInputs.contains(KeyCode.D)) {
-            player.move(1, Direction.RIGHT);
+            player.move(Constant.PLAYER_STEP, Direction.RIGHT);
         }
 
         if (!keyBoardInputs.contains(KeyCode.UP) && !keyBoardInputs.contains(KeyCode.W)
@@ -39,4 +40,3 @@ public class InputManager {
         }
     }
 }
-*/

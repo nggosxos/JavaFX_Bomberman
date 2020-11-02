@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHandler {
-/*
     public static List<KeyCode> playerController = new ArrayList<KeyCode>();
 
     public static List<KeyCode> getPlayerController() {
@@ -24,8 +23,6 @@ public class EventHandler {
 }
 
 class onKeyPressAction implements javafx.event.EventHandler<KeyEvent> {
-
-    @Override
     public void handle(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
@@ -36,8 +33,6 @@ class onKeyPressAction implements javafx.event.EventHandler<KeyEvent> {
 }
 
 class onKeyReleaseAction implements javafx.event.EventHandler<KeyEvent> {
-
-    @Override
     public void handle(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
@@ -45,5 +40,4 @@ class onKeyReleaseAction implements javafx.event.EventHandler<KeyEvent> {
             EventHandler.playerController.remove(keyCode);
         }
     }
- */
 }

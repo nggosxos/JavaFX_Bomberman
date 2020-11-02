@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import levels.Map;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -18,16 +19,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         primaryStage.getIcons().add(new Image((Main.class.getResourceAsStream("icon/icon.png"))));
         primaryStage.setTitle("Checking");
-        Group root = new Group();
-        Scene scene = new Scene(root, 600, 600);
-        Canvas canvas = new Canvas(600, 600);
-        root.getChildren().add(canvas);
-        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-        Image image = SpriteSheet.tiles.getImage();
+        Map.initScene();
+        Scene scene = Map.getScene();
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setAlwaysOnTop(true);
-        graphicsContext.drawImage(Sprite.powerup_bombs, 0, 0);
-
     }
 }

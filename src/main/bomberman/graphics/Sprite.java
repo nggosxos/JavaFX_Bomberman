@@ -13,10 +13,11 @@ public class Sprite {
 	| Board sprites
 	|--------------------------------------------------------------------------
 	 */
-    public static Image grass = spriteImages[0][6];
-    public static Image wall = spriteImages[0][5];
-    public static Image brick = spriteImages[0][7];
-    public static Image portal = spriteImages[0][4];
+    public static Image portal = spriteImages[4][0];
+    public static Image wall = spriteImages[5][0];
+    public static Image grass = spriteImages[6][0];
+    public static Image brick = spriteImages[7][0];
+
 
     /*
 	|--------------------------------------------------------------------------
@@ -173,5 +174,27 @@ public class Sprite {
     public static Image powerup_flamepass = spriteImages[6][10];
 
 
+    public static Image playSpriteAnimation(Image image_0, Image image_1, Image image_2, int animate, int time) {
+        int temp = animate % time;
+        int delta = time / 3;
+
+        if (temp < delta) {
+            return image_0;
+        } else if (temp < delta * 2) {
+            return image_1;
+        } else {
+            return image_2;
+        }
+    }
+
+    public static Image playSpriteAnimation(Image image_0, Image image_1, int animate, int time) {
+        int temp = animate % time;
+        int delta = time / 2;
+        if (temp > delta) {
+            return image_0;
+        } else {
+            return image_1;
+        }
+    }
 
 }
