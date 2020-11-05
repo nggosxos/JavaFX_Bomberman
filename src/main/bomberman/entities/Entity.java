@@ -1,5 +1,6 @@
 package entities;
 
+import constants.Constant;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -9,10 +10,17 @@ public abstract class Entity {
     protected int y_pos;
     protected boolean isRemoved = false;
     protected Image image;
+    protected RectangleBox boundedBox;
+
+    public Entity(int x, int y, Image image) {
+        x_pos = x;
+        y_pos = y;
+        this.image = image;
+    }
 
     public abstract void update();
     public void render(GraphicsContext graphicsContext) {
-        graphicsContext.drawImage(image, x_pos * image.getWidth(), y_pos * image.getHeight());
+        graphicsContext.drawImage(image, x_pos, y_pos);
     }
     public void remove() {
         isRemoved = true;
@@ -26,19 +34,12 @@ public abstract class Entity {
         this.image = image;
     }
 
-    public int getX_pos() {
-        return x_pos;
+    public RectangleBox getBoundedBox() {
+        return boundedBox;
     }
 
-    public int getY_pos() {
-        return y_pos;
-    }
-
-    public int getX_Center() {
-        return (int) (x_pos + image.getWidth() / 2);
-    }
-
-    public int getY_Center() {
-        return (int) (y_pos + image.getWidth() / 2);
+    public boolean isColliding(Entity other) {
+        RectangleBox otherBox = other.getBoundedBox();
+        return boundedBox.checkCollision(otherBox);
     }
 }

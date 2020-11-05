@@ -1,19 +1,24 @@
 package entities.player;
 
+import constants.Constant;
 import constants.Direction;
 import entities.AnimatedEntity;
+import entities.Entity;
+import entities.RectangleBox;
+import entities.fix.Wall;
 import graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import levels.Map;
 
 public class Player extends AnimatedEntity {
     private int bombCount;
     private boolean isMoving;
     private Direction currentDirection;
+
     public Player(int x, int y, Image player) {
-        x_pos = x;
-        y_pos = y;
-        image = player;
+        super(x, y, player);
+        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE - 10, Constant.SCALED_SIZE);
     }
 
     public void update() {
@@ -33,24 +38,44 @@ public class Player extends AnimatedEntity {
             isMoving = true;
             switch (direction) {
                 case UP:
-                    y_pos -= steps;
-                    currentDirection = Direction.UP;
-                    playAnimation();
+                    if (!checkCollisions(x_pos, y_pos - steps)) {
+                        y_pos -= steps;
+                        currentDirection = Direction.UP;
+                        playAnimation();
+                    } else {
+                        isMoving = false;
+                        image = Sprite.player_up;
+                    }
                     break;
                 case DOWN:
-                    y_pos += steps;
-                    currentDirection = Direction.DOWN;
-                    playAnimation();
+                    if (!checkCollisions(x_pos, y_pos + steps)) {
+                        y_pos += steps;
+                        currentDirection = Direction.DOWN;
+                        playAnimation();
+                    } else {
+                        isMoving = false;
+                        image = Sprite.player_down;
+                    }
                     break;
                 case LEFT:
-                    x_pos -= steps;
-                    currentDirection = Direction.LEFT;
-                    playAnimation();
+                    if (!checkCollisions(x_pos - steps, y_pos)) {
+                        x_pos -= steps;
+                        currentDirection = Direction.LEFT;
+                        playAnimation();
+                    } else {
+                        isMoving = false;
+                        image = Sprite.player_left;
+                    }
                     break;
                 case RIGHT:
-                    x_pos += steps;
-                    currentDirection = Direction.RIGHT;
-                    playAnimation();
+                    if (!checkCollisions(x_pos + steps, y_pos)) {
+                        x_pos += steps;
+                        currentDirection = Direction.RIGHT;
+                        playAnimation();
+                    } else {
+                        isMoving = false;
+                        image = Sprite.player_right;
+                    }
                     break;
                 default:
                     break;
@@ -81,5 +106,16 @@ public class Player extends AnimatedEntity {
                 }
                 break;
         }
+    }
+    public boolean checkCollisions(int x, int y) {
+        boundedBox.setPosition(x, y);
+        for (Entity entity : Map.getBoardLayer()) {
+            if (entity instanceof Wall && isColliding(entity)) {
+                boundedBox.setPosition(x_pos, y_pos);
+                return true;
+            }
+        }
+        boundedBox.setPosition(x_pos, y_pos);
+        return false;
     }
 }

@@ -11,12 +11,14 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import levels.Map;
 
+import java.io.IOException;
+
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         primaryStage.getIcons().add(new Image((Main.class.getResourceAsStream("icon/icon.png"))));
         primaryStage.setTitle("Checking");
         Map.initScene();

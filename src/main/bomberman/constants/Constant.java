@@ -13,7 +13,7 @@ public class Constant {
     public static final String GAME_NAME = "BOMBERMAN_TEAM27";
     public static final String GAME_VER = "ver1.0.0.0";
 
-    public static final int SCALE_RATIO = 3;
+    public static final int SCALE_RATIO = 2;
     public static final int DEFAULT_SIZE = 16;
     public static final int SCALED_SIZE = DEFAULT_SIZE * SCALE_RATIO;
 
