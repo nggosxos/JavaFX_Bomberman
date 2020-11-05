@@ -2,7 +2,6 @@ package controller;
 
 import constants.Constant;
 import entities.Entity;
-import graphics.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import levels.Map;
@@ -14,12 +13,13 @@ public class GameLoop {
 
     public static void start(final GraphicsContext graphicsContext) {
         running = true;
-
+        paused = false;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                graphicsContext.clearRect(0, 0, Constant.CANVAS_WIDTH, Constant.CANVAS_HEIGHT);
-
+                graphicsContext.clearRect(0, 0
+                        , Map.mapWidth * Constant.SCALED_SIZE
+                        , Map.mapHeight * Constant.SCALED_SIZE);
                 updateGame();
                 renderGame(graphicsContext);
             }
@@ -32,6 +32,9 @@ public class GameLoop {
         for (Entity entity : Map.getBoardLayer()) {
             entity.update();
         }
+        for (Entity entity : Map.getBottomLayer()) {
+            entity.update();
+        }
         for (Entity entity : Map.getMidLayer()) {
             entity.update();
         }
@@ -42,6 +45,9 @@ public class GameLoop {
 
     public static void renderGame(GraphicsContext graphicsContext) {
         for (Entity entity : Map.getBoardLayer()) {
+            entity.render(graphicsContext);
+        }
+        for (Entity entity : Map.getBottomLayer()) {
             entity.render(graphicsContext);
         }
         for (Entity entity : Map.getMidLayer()) {

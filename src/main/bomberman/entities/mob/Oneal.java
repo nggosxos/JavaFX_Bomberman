@@ -1,4 +1,13 @@
 package entities.mob;
 
-public class Oneal {
+import javafx.scene.image.Image;
+
+public class Oneal extends Enemy {
+    public Oneal(int x, int y, Image oneal) {
+        super(x, y, oneal);
+    }
+
+    public void update() {
+
+    }
 }

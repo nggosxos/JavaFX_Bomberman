@@ -1,4 +1,13 @@
 package entities.mob;
 
-public class Minvo {
+import javafx.scene.image.Image;
+
+public class Minvo extends Enemy {
+    public Minvo(int x, int y, Image minvo) {
+        super(x, y, minvo);
+    }
+
+    public void update() {
+
+    }
 }

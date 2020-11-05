@@ -36,7 +36,7 @@ public class InputManager {
             player.move(0, Direction.DOWN);
         }
         if (keyBoardInputs.contains(KeyCode.SPACE)) {
-
+            player.placeBomb();
         }
     }
 }

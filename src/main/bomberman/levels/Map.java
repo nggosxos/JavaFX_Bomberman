@@ -1,6 +1,5 @@
 package levels;
 
-import com.sun.javafx.sg.prism.NGNode;
 import constants.Constant;
 import controller.EventHandler;
 import controller.GameLoop;
@@ -9,19 +8,26 @@ import entities.fix.Brick;
 import entities.fix.Grass;
 import entities.fix.Portal;
 import entities.fix.Wall;
+import entities.mob.Ballom;
+import entities.mob.Doll;
+import entities.mob.Minvo;
+import entities.mob.Oneal;
 import entities.player.Player;
+import entities.powerup.PowerupBombs;
+import entities.powerup.PowerupFlames;
+import entities.powerup.PowerupSpeed;
 import graphics.Sprite;
-import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Map {
@@ -35,10 +41,12 @@ public class Map {
     public static String[] myMap;
     private static final List<Entity> topLayer = new ArrayList<Entity>();
     private static final List<Entity> midLayer = new ArrayList<Entity>();
+    private static final List<Entity> bottomLayer = new ArrayList<Entity>();
     private static final List<Entity> boardLayer = new ArrayList<Entity>();
 
-    private static int mapWidth;
-    private static int mapHeight;
+
+    public static int mapWidth;
+    public static int mapHeight;
     public static int mapLevel;
 
 
@@ -57,20 +65,8 @@ public class Map {
         EventHandler.attachEventHandler(scene);
     }
 
-    public static void createMap() throws IOException {
+    public static void createMap() {
         loadMapFile("levels/Level1.txt");
-        //demo map
-        for (int x = 0; x < mapWidth; x++) {
-            for (int y = 0; y < mapHeight; y++) {
-                Entity object;
-                if (y == 0 || y == mapHeight - 1 || x == 0 || x == mapWidth - 1) {
-                    object = new Wall(x * Constant.SCALED_SIZE, y  * Constant.SCALED_SIZE, Sprite.wall);
-                } else {
-                    object = new Grass(x  * Constant.SCALED_SIZE, y  * Constant.SCALED_SIZE, Sprite.grass);
-                }
-                boardLayer.add(object);
-            }
-        }
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 char c = myMap[i].charAt(j);
@@ -105,24 +101,27 @@ public class Map {
     }
 
     public static boolean addMovingObject(Entity entity) {
-        if (!topLayer.contains(entity)) {
-            topLayer.add(entity);
+        if (!midLayer.contains(entity)) {
+            midLayer.add(entity);
             return true;
         } else {
             return false;
         }
     }
-
-    public static List<Entity> getTopLayer() {
-        return topLayer;
-    }
-
     public static List<Entity> getBoardLayer() {
         return boardLayer;
     }
 
+    public static List<Entity> getBottomLayer() {
+        return bottomLayer;
+    }
+
     public static List<Entity> getMidLayer() {
         return midLayer;
+    }
+
+    public static List<Entity> getTopLayer() {
+        return topLayer;
     }
 
     public static void addEntity(char c, int x, int y) {
@@ -132,22 +131,27 @@ public class Map {
                 break;
             case 'b':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new PowerupBombs(x, y, Sprite.powerup_bombs));
                 midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 's':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new PowerupSpeed(x, y, Sprite.powerup_speed));
+                midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'f':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new PowerupFlames(x, y, Sprite.powerup_flames));
+                midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case '*':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                topLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'x':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                midLayer.add(new Portal(x, y, Sprite.portal));
-                topLayer.add(new Brick(x, y, Sprite.brick));
+                bottomLayer.add(new Portal(x, y, Sprite.portal));
+                midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case ' ':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
@@ -158,18 +162,23 @@ public class Map {
                 break;
             case '1':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                topLayer.add(new Ballom(x, y, Sprite.ballom_right));
                 break;
             case '2':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                topLayer.add(new Oneal(x, y, Sprite.oneal_right));
                 break;
             case '3':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                topLayer.add(new Doll(x, y, Sprite.doll_right));
                 break;
             case '4':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                topLayer.add(new Minvo(x, y, Sprite.grass));
                 break;
             case '5':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                topLayer.add(new Grass(x, y, Sprite.kondoria_right));
                 break;
         }
     }

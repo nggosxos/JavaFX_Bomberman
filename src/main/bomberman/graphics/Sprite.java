@@ -2,9 +2,6 @@ package graphics;
 
 import constants.Constant;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
 
 public class Sprite {
 
@@ -145,13 +142,13 @@ public class Sprite {
     public static Image explosion_horizontal_right_last_1 = spriteImages[2][8];
     public static Image explosion_horizontal_right_last_2 = spriteImages[2][9];
 
-    public static Image getExplosion_vertical_top_last = spriteImages[1][4];
-    public static Image getExplosion_vertical_top_last_1 = spriteImages[2][4];
-    public static Image getExplosion_vertical_top_last_2 = spriteImages[3][4];
+    public static Image explosion_vertical_top_last = spriteImages[1][4];
+    public static Image explosion_vertical_top_last_1 = spriteImages[2][4];
+    public static Image explosion_vertical_top_last_2 = spriteImages[3][4];
 
-    public static Image getExplosion_vertical_down_last = spriteImages[1][6];
-    public static Image getExplosion_vertical_down_last_1 = spriteImages[2][6];
-    public static Image getExplosion_vertical_down_last_2 = spriteImages[3][6];
+    public static Image explosion_vertical_down_last = spriteImages[1][6];
+    public static Image explosion_vertical_down_last_1 = spriteImages[2][6];
+    public static Image explosion_vertical_down_last_2 = spriteImages[3][6];
 
     /*
 	|--------------------------------------------------------------------------
