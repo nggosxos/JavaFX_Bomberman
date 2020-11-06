@@ -7,6 +7,10 @@ public class Kondoria extends Enemy {
         super(x, y, kondoria);
     }
 
+    public void playAnimation() {
+
+    }
+
     public void update() {
 
     }

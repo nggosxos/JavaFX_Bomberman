@@ -9,7 +9,9 @@ import levels.Map;
 import java.util.List;
 
 public class InputManager {
+
     public static void playerMovementHandler() {
+
         List<KeyCode> keyBoardInputs = EventHandler.getPlayerController();
         Player player = Map.getPlayer();
 
@@ -35,6 +37,7 @@ public class InputManager {
         && !keyBoardInputs.contains(KeyCode.RIGHT) && !keyBoardInputs.contains(KeyCode.D)) {
             player.move(0, Direction.DOWN);
         }
+
         if (keyBoardInputs.contains(KeyCode.SPACE)) {
             player.placeBomb();
         }

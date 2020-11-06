@@ -10,4 +10,8 @@ public class Oneal extends Enemy {
     public void update() {
 
     }
+
+    public void playAnimation() {
+
+    }
 }

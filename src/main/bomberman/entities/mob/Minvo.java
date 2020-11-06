@@ -7,6 +7,10 @@ public class Minvo extends Enemy {
         super(x, y, minvo);
     }
 
+    public void playAnimation() {
+
+    }
+
     public void update() {
 
     }

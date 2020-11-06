@@ -10,10 +10,13 @@ public class GameLoop {
 
     private static boolean running = false;
     private static boolean paused = true;
+    private static boolean endgame = false;
 
     public static void start(final GraphicsContext graphicsContext) {
+
         running = true;
         paused = false;
+        endgame = false;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -28,10 +31,8 @@ public class GameLoop {
     }
 
     public static void updateGame() {
-        InputManager.playerMovementHandler();
-        for (Entity entity : Map.getBoardLayer()) {
-            entity.update();
-        }
+
+        Map.removeEntity();
         for (Entity entity : Map.getBottomLayer()) {
             entity.update();
         }
@@ -41,12 +42,14 @@ public class GameLoop {
         for (Entity entity : Map.getTopLayer()) {
             entity.update();
         }
+        Map.getPlayer().update();
     }
 
     public static void renderGame(GraphicsContext graphicsContext) {
         for (Entity entity : Map.getBoardLayer()) {
             entity.render(graphicsContext);
         }
+
         for (Entity entity : Map.getBottomLayer()) {
             entity.render(graphicsContext);
         }
@@ -56,5 +59,6 @@ public class GameLoop {
         for (Entity entity : Map.getTopLayer()) {
             entity.render(graphicsContext);
         }
+        Map.getPlayer().render(graphicsContext);
     }
 }

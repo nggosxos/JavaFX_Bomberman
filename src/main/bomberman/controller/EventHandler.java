@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHandler {
+
     public static List<KeyCode> playerController = new ArrayList<KeyCode>();
 
     public static List<KeyCode> getPlayerController() {

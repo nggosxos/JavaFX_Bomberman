@@ -1,5 +1,6 @@
 package entities.mob;
 
+import constants.Direction;
 import javafx.scene.image.Image;
 
 public class Ballom extends Enemy{
@@ -8,6 +9,10 @@ public class Ballom extends Enemy{
     }
 
     public void update() {
+
+    }
+
+    public void playAnimation() {
 
     }
 }

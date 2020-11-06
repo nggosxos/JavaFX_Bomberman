@@ -7,6 +7,10 @@ public class Doll extends Enemy {
         super(x, y, doll);
     }
 
+    public void playAnimation() {
+
+    }
+
     public void update() {
 
     }

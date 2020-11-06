@@ -13,9 +13,7 @@ import entities.mob.Doll;
 import entities.mob.Minvo;
 import entities.mob.Oneal;
 import entities.player.Player;
-import entities.powerup.PowerupBombs;
-import entities.powerup.PowerupFlames;
-import entities.powerup.PowerupSpeed;
+import entities.powerup.*;
 import graphics.Sprite;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -54,7 +52,7 @@ public class Map {
         sceneStarted = false;
     }
 
-    private static void initGame() throws IOException {
+    private static void initGame() {
         createMap();
         root = new Group();
         scene = new Scene(root, mapWidth * Constant.SCALED_SIZE, mapHeight * Constant.SCALED_SIZE);
@@ -76,7 +74,7 @@ public class Map {
         }
     }
 
-    public static void initScene() throws IOException {
+    public static void initScene() {
         if (!sceneStarted) {
             initGame();
             sceneStarted = true;
@@ -97,7 +95,7 @@ public class Map {
 
     public static void setPlayer(Player player) {
         Map.player = player;
-        topLayer.add(player);
+        //topLayer.add(player);
     }
 
     public static boolean addMovingObject(Entity entity) {
@@ -108,6 +106,29 @@ public class Map {
             return false;
         }
     }
+
+    public static void removeEntity() {
+        for (int i = 0; i < bottomLayer.size(); i++) {
+            if (bottomLayer.get(i).isRemoved()) {
+                bottomLayer.remove(i);
+                --i;
+            }
+        }
+
+        for (int i = 0; i < midLayer.size(); i++) {
+            if (midLayer.get(i).isRemoved()) {
+                midLayer.remove(i);
+                --i;
+            }
+        }
+        for (int i = 0; i < topLayer.size(); i++) {
+            if (topLayer.get(i).isRemoved()) {
+                topLayer.remove(i);
+                --i;
+            }
+        }
+    }
+
     public static List<Entity> getBoardLayer() {
         return boardLayer;
     }
@@ -126,9 +147,23 @@ public class Map {
 
     public static void addEntity(char c, int x, int y) {
         switch(c) {
+            //maze
             case '#':
                 boardLayer.add(new Wall(x, y, Sprite.wall));
                 break;
+            case '*':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                midLayer.add(new Brick(x, y, Sprite.brick));
+                break;
+            case 'x':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new Portal(x, y, Sprite.portal));
+                midLayer.add(new Brick(x, y, Sprite.brick));
+                break;
+            case ' ':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                break;
+            //powerups
             case 'b':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
                 bottomLayer.add(new PowerupBombs(x, y, Sprite.powerup_bombs));
@@ -144,22 +179,31 @@ public class Map {
                 bottomLayer.add(new PowerupFlames(x, y, Sprite.powerup_flames));
                 midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
-            case '*':
+            case 'd':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new PowerupDetonator(x, y, Sprite.powerup_detonator));
                 midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
-            case 'x':
+            case 'w':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new Portal(x, y, Sprite.portal));
+                bottomLayer.add(new PowerupWallPass(x, y, Sprite.powerup_wallpass));
                 midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
-            case ' ':
+            case 'm':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new PowerupFlamePass(x, y, Sprite.powerup_flamepass));
+                midLayer.add(new Brick(x, y, Sprite.brick));
                 break;
+            case 'n':
+                boardLayer.add(new Grass(x, y, Sprite.grass));
+                bottomLayer.add(new PowerupBombPass(x, y, Sprite.powerup_bombpass));
+                midLayer.add(new Brick(x, y, Sprite.brick));
+            //player
             case 'p':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
                 setPlayer(new Player(x, y, Sprite.player_right));
                 break;
+            //enemies
             case '1':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
                 topLayer.add(new Ballom(x, y, Sprite.ballom_right));

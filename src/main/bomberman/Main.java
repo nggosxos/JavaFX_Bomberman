@@ -1,13 +1,7 @@
-import com.sun.prism.paint.Color;
-import graphics.Sprite;
-import graphics.SpriteSheet;
+import constants.Constant;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import levels.Map;
 
@@ -18,9 +12,9 @@ public class Main extends Application {
         launch(args);
     }
 
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         primaryStage.getIcons().add(new Image((Main.class.getResourceAsStream("icon/icon.png"))));
-        primaryStage.setTitle("Checking");
+        primaryStage.setTitle(Constant.GAME_NAME + " " + Constant.GAME_VER);
         Map.initScene();
         Scene scene = Map.getScene();
         primaryStage.setScene(scene);

@@ -16,6 +16,7 @@ public class Sprite {
     public static Image wall = spriteImages[5][0];
     public static Image grass = spriteImages[6][0];
     public static Image brick = spriteImages[7][0];
+    public static Image transparent = spriteImages[15][15];
 
 
     /*
@@ -171,7 +172,6 @@ public class Sprite {
     public static Image powerup_detonator = spriteImages[4][10];
     public static Image powerup_bombpass = spriteImages[5][10];
     public static Image powerup_flamepass = spriteImages[6][10];
-
 
     public static Image playSpriteAnimation(Image image_0, Image image_1, Image image_2, int animate, int time) {
         int temp = animate % time;

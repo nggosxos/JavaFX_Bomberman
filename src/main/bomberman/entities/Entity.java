@@ -1,6 +1,5 @@
 package entities;
 
-import constants.Constant;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -8,7 +7,7 @@ import javafx.scene.image.Image;
 public abstract class Entity {
     protected int x_pos;
     protected int y_pos;
-    protected boolean isRemoved = false;
+    protected boolean removed;
     protected Image image;
     protected RectangleBox boundedBox;
 
@@ -16,6 +15,7 @@ public abstract class Entity {
         x_pos = x;
         y_pos = y;
         this.image = image;
+        removed = false;
     }
 
     public abstract void update();
@@ -23,7 +23,10 @@ public abstract class Entity {
         graphicsContext.drawImage(image, x_pos, y_pos);
     }
     public void remove() {
-        isRemoved = true;
+        removed = true;
+    }
+    public boolean isRemoved() {
+        return removed;
     }
 
     public Image getImage() {
