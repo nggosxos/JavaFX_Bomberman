@@ -3,7 +3,6 @@ package entities;
 import constants.Direction;
 import entities.fix.Brick;
 import entities.fix.Wall;
-import graphics.Sprite;
 import javafx.scene.image.Image;
 import levels.Map;
 
@@ -23,16 +22,16 @@ public abstract class MovingEntity extends AnimatedEntity {
             if (steps == 0) {
                 isMoving = false;
             } else {
-                isMoving = true;
                 switch (direction) {
                     case UP:
                         if (checkFriendlyCollisions(x_pos, y_pos - steps)) {
                             y_pos -= steps;
                             currentDirection = Direction.UP;
                             playAnimation();
+                            isMoving = true;
                         } else {
                             isMoving = false;
-                            image = Sprite.player_up;
+                            image = this.getUpImage();
                         }
                         break;
                     case DOWN:
@@ -40,9 +39,10 @@ public abstract class MovingEntity extends AnimatedEntity {
                             y_pos += steps;
                             currentDirection = Direction.DOWN;
                             playAnimation();
+                            isMoving = true;
                         } else {
                             isMoving = false;
-                            image = Sprite.player_down;
+                            image = this.getDownImage();
                         }
                         break;
                     case LEFT:
@@ -50,9 +50,10 @@ public abstract class MovingEntity extends AnimatedEntity {
                             x_pos -= steps;
                             currentDirection = Direction.LEFT;
                             playAnimation();
+                            isMoving = true;
                         } else {
                             isMoving = false;
-                            image = Sprite.player_left;
+                            image = this.getLeftImage();
                         }
                         break;
                     case RIGHT:
@@ -60,18 +61,17 @@ public abstract class MovingEntity extends AnimatedEntity {
                             x_pos += steps;
                             currentDirection = Direction.RIGHT;
                             playAnimation();
+                            isMoving = true;
                         } else {
                             isMoving = false;
-                            image = Sprite.player_right;
+                            image = this.getRightImage();
                         }
                         break;
                 }
             }
         } else {
-            isMoving = false;
             playAnimation();
         }
-
     }
 
     public abstract void playAnimation();
@@ -84,7 +84,7 @@ public abstract class MovingEntity extends AnimatedEntity {
                 return false;
             }
         }
-        for (Entity entity : Map.getMidLayer()) {
+        for (Entity entity : Map.getTopLayer()) {
             if (entity instanceof Brick && isColliding(entity)) {
                 boundedBox.setPosition(x_pos, y_pos);
                 return false;
@@ -93,4 +93,14 @@ public abstract class MovingEntity extends AnimatedEntity {
         boundedBox.setPosition(x_pos, y_pos);
         return true;
     }
+
+    public abstract boolean checkBombCollision(int x, int y);
+
+    public abstract Image getUpImage();
+
+    public abstract Image getDownImage();
+
+    public abstract Image getRightImage();
+
+    public abstract Image getLeftImage();
 }

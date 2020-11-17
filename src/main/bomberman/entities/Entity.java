@@ -45,4 +45,12 @@ public abstract class Entity {
         RectangleBox otherBox = other.getBoundedBox();
         return boundedBox.checkCollision(otherBox);
     }
+
+    public int getX_pos() {
+        return x_pos;
+    }
+
+    public int getY_pos() {
+        return y_pos;
+    }
 }

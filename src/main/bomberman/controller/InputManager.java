@@ -10,7 +10,7 @@ import java.util.List;
 
 public class InputManager {
 
-    public static void playerMovementHandler() {
+    public void playerMovementHandler() {
 
         List<KeyCode> keyBoardInputs = EventHandler.getPlayerController();
         Player player = Map.getPlayer();

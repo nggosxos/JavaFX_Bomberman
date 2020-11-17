@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import levels.Map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class EventHandler {
     }
 
     public static void attachEventHandler(Scene scene) {
+        playerController.clear();
         onKeyPressAction keyPressAction = new onKeyPressAction();
         onKeyReleaseAction keyReleaseAction = new onKeyReleaseAction();
         scene.setOnKeyPressed(keyPressAction);

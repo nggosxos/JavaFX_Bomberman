@@ -8,10 +8,7 @@ import entities.fix.Brick;
 import entities.fix.Grass;
 import entities.fix.Portal;
 import entities.fix.Wall;
-import entities.mob.Ballom;
-import entities.mob.Doll;
-import entities.mob.Minvo;
-import entities.mob.Oneal;
+import entities.mob.*;
 import entities.player.Player;
 import entities.powerup.*;
 import graphics.Sprite;
@@ -19,6 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,11 +35,11 @@ public class Map {
     static Player player;
 
     public static String[] myMap;
+    private static final List<Entity> enemyLayer = new ArrayList<Entity>();
     private static final List<Entity> topLayer = new ArrayList<Entity>();
     private static final List<Entity> midLayer = new ArrayList<Entity>();
-    private static final List<Entity> bottomLayer = new ArrayList<Entity>();
     private static final List<Entity> boardLayer = new ArrayList<Entity>();
-
+    private static int currentLevel = 1;
 
     public static int mapWidth;
     public static int mapHeight;
@@ -53,7 +51,7 @@ public class Map {
     }
 
     private static void initGame() {
-        createMap();
+        createMap(1);
         root = new Group();
         scene = new Scene(root, mapWidth * Constant.SCALED_SIZE, mapHeight * Constant.SCALED_SIZE);
         canvas = new Canvas(mapWidth * Constant.SCALED_SIZE, mapHeight * Constant.SCALED_SIZE);
@@ -63,16 +61,8 @@ public class Map {
         EventHandler.attachEventHandler(scene);
     }
 
-    public static void createMap() {
-        loadMapFile("levels/Level1.txt");
-        for (int i = 0; i < mapHeight; i++) {
-            for (int j = 0; j < mapWidth; j++) {
-                char c = myMap[i].charAt(j);
-                addEntity(c, j * Constant.SCALED_SIZE, i * Constant.SCALED_SIZE);
-            }
-            System.out.println();
-        }
-    }
+
+
 
     public static void initScene() {
         if (!sceneStarted) {
@@ -95,35 +85,69 @@ public class Map {
 
     public static void setPlayer(Player player) {
         Map.player = player;
-        //topLayer.add(player);
     }
 
     public static boolean addMovingObject(Entity entity) {
-        if (!midLayer.contains(entity)) {
-            midLayer.add(entity);
+        if (!topLayer.contains(entity)) {
+            topLayer.add(entity);
             return true;
         } else {
             return false;
         }
     }
-
-    public static void removeEntity() {
-        for (int i = 0; i < bottomLayer.size(); i++) {
-            if (bottomLayer.get(i).isRemoved()) {
-                bottomLayer.remove(i);
-                --i;
+    public static void createMap(int level) {
+        clearMap();
+        loadMapFile("levels/Level" + level + ".txt");
+        for (int i = 0; i < mapHeight; i++) {
+            for (int j = 0; j < mapWidth; j++) {
+                char c = myMap[i].charAt(j);
+                addEntity(c, j * Constant.SCALED_SIZE, i * Constant.SCALED_SIZE);
             }
         }
+    }
 
+    public static void clearMap() {
+        player = null;
+        enemyLayer.clear();
+        topLayer.clear();
+        midLayer.clear();
+        boardLayer.clear();
+    }
+
+    public static void nextMap() {
+        if (currentLevel <= 5) {
+            currentLevel++;
+        } else {
+            currentLevel = 1;
+        }
+    }
+
+    public static void nextLevel() {
+        nextMap();
+        createMap(currentLevel);
+    }
+
+    public static void nextLevelByFn(int next) {
+        createMap(next);
+    }
+
+    public static void removeEntity() {
         for (int i = 0; i < midLayer.size(); i++) {
             if (midLayer.get(i).isRemoved()) {
                 midLayer.remove(i);
                 --i;
             }
         }
+
         for (int i = 0; i < topLayer.size(); i++) {
             if (topLayer.get(i).isRemoved()) {
                 topLayer.remove(i);
+                --i;
+            }
+        }
+        for (int i = 0; i < enemyLayer.size(); i++) {
+            if (enemyLayer.get(i).isRemoved()) {
+                enemyLayer.remove(i);
                 --i;
             }
         }
@@ -131,10 +155,6 @@ public class Map {
 
     public static List<Entity> getBoardLayer() {
         return boardLayer;
-    }
-
-    public static List<Entity> getBottomLayer() {
-        return bottomLayer;
     }
 
     public static List<Entity> getMidLayer() {
@@ -145,6 +165,10 @@ public class Map {
         return topLayer;
     }
 
+    public static List<Entity> getEnemyLayer() {
+        return enemyLayer;
+    }
+
     public static void addEntity(char c, int x, int y) {
         switch(c) {
             //maze
@@ -153,12 +177,12 @@ public class Map {
                 break;
             case '*':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'x':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new Portal(x, y, Sprite.portal));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new Portal(x, y, Sprite.portal));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case ' ':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
@@ -166,38 +190,38 @@ public class Map {
             //powerups
             case 'b':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupBombs(x, y, Sprite.powerup_bombs));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupBombs(x, y, Sprite.powerup_bombs));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 's':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupSpeed(x, y, Sprite.powerup_speed));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupSpeed(x, y, Sprite.powerup_speed));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'f':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupFlames(x, y, Sprite.powerup_flames));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupFlames(x, y, Sprite.powerup_flames));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'd':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupDetonator(x, y, Sprite.powerup_detonator));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupDetonator(x, y, Sprite.powerup_detonator));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'w':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupWallPass(x, y, Sprite.powerup_wallpass));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupWallPass(x, y, Sprite.powerup_wallpass));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'm':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupFlamePass(x, y, Sprite.powerup_flamepass));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupFlamePass(x, y, Sprite.powerup_flamepass));
+                topLayer.add(new Brick(x, y, Sprite.brick));
                 break;
             case 'n':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                bottomLayer.add(new PowerupBombPass(x, y, Sprite.powerup_bombpass));
-                midLayer.add(new Brick(x, y, Sprite.brick));
+                midLayer.add(new PowerupBombPass(x, y, Sprite.powerup_bombpass));
+                topLayer.add(new Brick(x, y, Sprite.brick));
             //player
             case 'p':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
@@ -206,23 +230,23 @@ public class Map {
             //enemies
             case '1':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                topLayer.add(new Ballom(x, y, Sprite.ballom_right));
+                enemyLayer.add(new Ballom(x, y, Sprite.ballom_right));
                 break;
             case '2':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                topLayer.add(new Oneal(x, y, Sprite.oneal_right));
+                enemyLayer.add(new Oneal(x, y, Sprite.oneal_right));
                 break;
             case '3':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                topLayer.add(new Doll(x, y, Sprite.doll_right));
+                enemyLayer.add(new Doll(x, y, Sprite.doll_right));
                 break;
             case '4':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                topLayer.add(new Minvo(x, y, Sprite.grass));
+                enemyLayer.add(new Minvo(x, y, Sprite.minvo_right));
                 break;
             case '5':
                 boardLayer.add(new Grass(x, y, Sprite.grass));
-                topLayer.add(new Grass(x, y, Sprite.kondoria_right));
+                enemyLayer.add(new Kondoria(x, y, Sprite.kondoria_right));
                 break;
         }
     }

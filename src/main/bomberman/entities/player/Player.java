@@ -6,6 +6,8 @@ import entities.Entity;
 import entities.MovingEntity;
 import entities.RectangleBox;
 import entities.bomb.Bomb;
+import entities.fix.Brick;
+import entities.fix.Wall;
 import entities.mob.Enemy;
 import entities.powerup.Powerup;
 import entities.powerup.PowerupBombs;
@@ -19,6 +21,7 @@ import java.util.List;
 
 public class Player extends MovingEntity {
     private int bombCount = 1;
+    InputManager input;
 
     private List<Entity> bombList = new ArrayList<Entity>();
     private List<Entity> powerupList = new ArrayList<Entity>();
@@ -27,6 +30,7 @@ public class Player extends MovingEntity {
         super(x, y, player);
         boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE - 10, Constant.SCALED_SIZE);
         alive = true;
+        input = new InputManager();
     }
 
     public void update() {
@@ -43,8 +47,9 @@ public class Player extends MovingEntity {
                 }
             }
         }
-        InputManager.playerMovementHandler();
+        input.playerMovementHandler();
     }
+
 
     @Override
     public void render(GraphicsContext graphicsContext) {
@@ -84,8 +89,20 @@ public class Player extends MovingEntity {
         }
     }
 
-    public void checkEnemyCollision() {
+    @Override
+    public boolean checkBombCollision(int x, int y) {
         for (Entity entity : Map.getTopLayer()) {
+            if (entity instanceof Bomb && !((Bomb) entity).allowToPass()) {
+                boundedBox.setPosition(x_pos, y_pos);
+                return false;
+            }
+        }
+        boundedBox.setPosition(x_pos, y_pos);
+        return true;
+    }
+
+    public void checkEnemyCollision() {
+        for (Entity entity : Map.getEnemyLayer()) {
             if (entity instanceof Enemy && isColliding(entity)) {
                 die();
             }
@@ -100,7 +117,7 @@ public class Player extends MovingEntity {
         if (bombCount > 0) {
             Bomb bomb = new Bomb(((x_pos + Constant.SCALED_SIZE / 2) / Constant.SCALED_SIZE) * Constant.SCALED_SIZE
                     , ((y_pos + Constant.SCALED_SIZE / 2) / Constant.SCALED_SIZE) * Constant.SCALED_SIZE, Sprite.bomb);
-            Map.getMidLayer().add(bomb);
+            Map.getTopLayer().add(bomb);
             bombList.add(bomb);
             bombCount--;
         }
@@ -118,5 +135,21 @@ public class Player extends MovingEntity {
         if (powerup instanceof PowerupBombs) {
             bombCount++;
         }
+    }
+
+    public Image getUpImage() {
+        return Sprite.player_up;
+    }
+
+    public Image getDownImage() {
+        return Sprite.player_down;
+    }
+
+    public Image getRightImage() {
+        return Sprite.player_right;
+    }
+
+    public Image getLeftImage() {
+        return Sprite.player_left;
     }
 }

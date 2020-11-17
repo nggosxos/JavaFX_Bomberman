@@ -33,13 +33,13 @@ public class GameLoop {
     public static void updateGame() {
 
         Map.removeEntity();
-        for (Entity entity : Map.getBottomLayer()) {
-            entity.update();
-        }
         for (Entity entity : Map.getMidLayer()) {
             entity.update();
         }
         for (Entity entity : Map.getTopLayer()) {
+            entity.update();
+        }
+        for (Entity entity : Map.getEnemyLayer()) {
             entity.update();
         }
         Map.getPlayer().update();
@@ -50,13 +50,13 @@ public class GameLoop {
             entity.render(graphicsContext);
         }
 
-        for (Entity entity : Map.getBottomLayer()) {
-            entity.render(graphicsContext);
-        }
         for (Entity entity : Map.getMidLayer()) {
             entity.render(graphicsContext);
         }
         for (Entity entity : Map.getTopLayer()) {
+            entity.render(graphicsContext);
+        }
+        for (Entity entity : Map.getEnemyLayer()) {
             entity.render(graphicsContext);
         }
         Map.getPlayer().render(graphicsContext);

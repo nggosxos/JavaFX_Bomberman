@@ -6,8 +6,10 @@ import entities.AnimatedEntity;
 import entities.Entity;
 import entities.MovingEntity;
 import entities.RectangleBox;
+import entities.bomb.Bomb;
 import entities.fix.Brick;
 import entities.fix.Wall;
+import entities.powerup.Powerup;
 import graphics.Sprite;
 import javafx.scene.image.Image;
 import levels.Map;
@@ -20,4 +22,8 @@ public abstract class Enemy extends MovingEntity {
         alive = true;
     }
 
+    @Override
+    public boolean checkBombCollision(int x, int y) {
+        return false;
+    }
 }

@@ -1,9 +1,13 @@
 package entities.bomb;
 
+import constants.Constant;
 import entities.AnimatedEntity;
+import entities.RectangleBox;
+import entities.player.Player;
 import graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import levels.Map;
 
 public class Bomb extends AnimatedEntity {
     private int countDownTime = 120;
@@ -12,12 +16,13 @@ public class Bomb extends AnimatedEntity {
 
     private final int explosionTime = 50;
 
-    private boolean ableToCross = true;
+    private boolean allowToCross = true;
 
     private boolean exploded = false;
 
     public Bomb(int x, int y, Image boom) {
         super(x, y, boom);
+        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
     }
 
     @Override
@@ -50,5 +55,14 @@ public class Bomb extends AnimatedEntity {
             }
         }
         animation();
+        setAllowToCross();
+    }
+
+    public void setAllowToCross() {
+
+    }
+
+    public boolean allowToPass() {
+        return allowToCross;
     }
 }
