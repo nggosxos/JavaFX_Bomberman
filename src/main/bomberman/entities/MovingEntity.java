@@ -1,10 +1,15 @@
 package entities;
 
 import constants.Direction;
+import entities.bomb.Bomb;
+import entities.enemy.Enemy;
 import entities.fix.Brick;
 import entities.fix.Wall;
+import entities.player.Player;
 import javafx.scene.image.Image;
 import levels.Map;
+
+import javax.swing.text.PlainDocument;
 
 public abstract class MovingEntity extends AnimatedEntity {
     protected Direction currentDirection;
@@ -15,6 +20,7 @@ public abstract class MovingEntity extends AnimatedEntity {
 
     public MovingEntity(int x, int y, Image image) {
         super(x, y, image);
+        currentDirection = Direction.UP;
     }
 
     public void move(int steps, Direction direction) {
@@ -27,7 +33,6 @@ public abstract class MovingEntity extends AnimatedEntity {
                         if (checkFriendlyCollisions(x_pos, y_pos - steps)) {
                             y_pos -= steps;
                             currentDirection = Direction.UP;
-                            playAnimation();
                             isMoving = true;
                         } else {
                             isMoving = false;
@@ -38,7 +43,6 @@ public abstract class MovingEntity extends AnimatedEntity {
                         if (checkFriendlyCollisions(x_pos, y_pos + steps)) {
                             y_pos += steps;
                             currentDirection = Direction.DOWN;
-                            playAnimation();
                             isMoving = true;
                         } else {
                             isMoving = false;
@@ -49,7 +53,6 @@ public abstract class MovingEntity extends AnimatedEntity {
                         if (checkFriendlyCollisions(x_pos - steps, y_pos)) {
                             x_pos -= steps;
                             currentDirection = Direction.LEFT;
-                            playAnimation();
                             isMoving = true;
                         } else {
                             isMoving = false;
@@ -60,7 +63,6 @@ public abstract class MovingEntity extends AnimatedEntity {
                         if (checkFriendlyCollisions(x_pos + steps, y_pos)) {
                             x_pos += steps;
                             currentDirection = Direction.RIGHT;
-                            playAnimation();
                             isMoving = true;
                         } else {
                             isMoving = false;
@@ -69,12 +71,8 @@ public abstract class MovingEntity extends AnimatedEntity {
                         break;
                 }
             }
-        } else {
-            playAnimation();
         }
     }
-
-    public abstract void playAnimation();
 
     public boolean checkFriendlyCollisions(int x, int y) {
         boundedBox.setPosition(x, y);
@@ -89,12 +87,19 @@ public abstract class MovingEntity extends AnimatedEntity {
                 boundedBox.setPosition(x_pos, y_pos);
                 return false;
             }
+            if (this instanceof Enemy && entity instanceof Bomb && isColliding(entity)) {
+                boundedBox.setPosition(x_pos, y_pos);
+                return false;
+            }
+            if (this instanceof Player && entity instanceof Bomb
+                    && isColliding(entity) && !((Bomb) entity).allowToPass()) {
+                boundedBox.setPosition(x_pos, y_pos);
+                return false;
+            }
         }
         boundedBox.setPosition(x_pos, y_pos);
         return true;
     }
-
-    public abstract boolean checkBombCollision(int x, int y);
 
     public abstract Image getUpImage();
 

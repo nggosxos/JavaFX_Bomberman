@@ -29,7 +29,7 @@ class onKeyPressAction implements javafx.event.EventHandler<KeyEvent> {
     public void handle(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
-        if ( !EventHandler.playerController.contains(keyCode)) {
+        if (!EventHandler.playerController.contains(keyCode)) {
             EventHandler.playerController.add(keyCode);
         }
     }

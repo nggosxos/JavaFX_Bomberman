@@ -2,6 +2,7 @@ package controller;
 
 import constants.Constant;
 import entities.Entity;
+import entities.player.Player;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import levels.Map;
@@ -32,20 +33,27 @@ public class GameLoop {
 
     public static void updateGame() {
 
+        Map.life.setText("Life: " + Map.getPlayer().getLifeCount());
+        Map.bombs.setText("Bomb: " + Map.getPlayer().getRemainBombs());
+        Map.score.setText("Score: " + Map.gameScore);
+
+        for (int i = 0; i < Map.getMidLayer().size(); i++) {
+            Map.getMidLayer().get(i).update();
+        }
+        for (int i = 0; i < Map.getTopLayer().size(); i++) {
+            Map.getTopLayer().get(i).update();
+        }
+        for (int i = 0; i < Map.getEnemyLayer().size(); i++) {
+            Map.getEnemyLayer().get(i).update();
+        }
+
+        Player.getPlayer().update();
+        Map.setCameraView();
         Map.removeEntity();
-        for (Entity entity : Map.getMidLayer()) {
-            entity.update();
-        }
-        for (Entity entity : Map.getTopLayer()) {
-            entity.update();
-        }
-        for (Entity entity : Map.getEnemyLayer()) {
-            entity.update();
-        }
-        Map.getPlayer().update();
     }
 
     public static void renderGame(GraphicsContext graphicsContext) {
+
         for (Entity entity : Map.getBoardLayer()) {
             entity.render(graphicsContext);
         }
@@ -59,6 +67,7 @@ public class GameLoop {
         for (Entity entity : Map.getEnemyLayer()) {
             entity.render(graphicsContext);
         }
+
         Map.getPlayer().render(graphicsContext);
     }
 }

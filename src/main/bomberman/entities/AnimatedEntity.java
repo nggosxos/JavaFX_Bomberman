@@ -18,4 +18,6 @@ public abstract class AnimatedEntity extends Entity{
             animate = 0;
         }
     }
+
+    public abstract void playAnimation();
 }

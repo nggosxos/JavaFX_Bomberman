@@ -104,6 +104,40 @@ public class Sprite {
 
     public static Image kondoria_dead = spriteImages[10][8];
 
+    //OVAPI
+    public static Image opavi_left = spriteImages[6][5];
+    public static Image opavi_left_1 = spriteImages[6][6];
+    public static Image opavi_left_2 = spriteImages[6][7];
+
+    public static Image opavi_right = spriteImages[7][5];
+    public static Image opavi_right_1 = spriteImages[7][6];
+    public static Image opavi_right_2 = spriteImages[7][7];
+
+    public static Image opavi_dead = spriteImages[6][8];
+
+    //PASS
+    public static Image pass_left = spriteImages[4][5];
+    public static Image pass_left_1 = spriteImages[4][6];
+    public static Image pass_left_2 = spriteImages[4][7];
+
+    public static Image pass_right = spriteImages[5][5];
+    public static Image pass_right_1 = spriteImages[5][6];
+    public static Image pass_right_2 = spriteImages[5][7];
+
+    public static Image pass_dead = spriteImages[4][8];
+
+    //PONTAN
+    public static Image pontan_left = spriteImages[12][5];
+    public static Image pontan_left_1 = spriteImages[12][6];
+    public static Image pontan_left_2 = spriteImages[12][7];
+
+    public static Image pontan_right = spriteImages[13][5];
+    public static Image pontan_right_1 = spriteImages[13][6];
+    public static Image pontan_right_2 = spriteImages[13][7];
+
+    public static Image pontan_dead = spriteImages[12][8];
+
+
     //ALL
     public static Image mob_dead_1 = spriteImages[15][0];
     public static Image mob_dead_2 = spriteImages[15][1];
@@ -135,9 +169,9 @@ public class Sprite {
     public static Image explosion_horizontal_1 = spriteImages[1][8];
     public static Image explosion_horizontal_2 = spriteImages[1][9];
 
-    public static Image explosion_horizontal_left_last = spriteImages[2][7];
-    public static Image explosion_horizontal_left_last_1 = spriteImages[2][8];
-    public static Image explosion_horizontal_left_last_2 = spriteImages[2][9];
+    public static Image explosion_horizontal_left_last = spriteImages[0][7];
+    public static Image explosion_horizontal_left_last_1 = spriteImages[0][8];
+    public static Image explosion_horizontal_left_last_2 = spriteImages[0][9];
 
     public static Image explosion_horizontal_right_last = spriteImages[2][7];
     public static Image explosion_horizontal_right_last_1 = spriteImages[2][8];
@@ -172,6 +206,21 @@ public class Sprite {
     public static Image powerup_detonator = spriteImages[4][10];
     public static Image powerup_bombpass = spriteImages[5][10];
     public static Image powerup_flamepass = spriteImages[6][10];
+    public static Image powerup_mystery = spriteImages[7][10];
+
+    /*
+	|--------------------------------------------------------------------------
+	| Bonus
+	|--------------------------------------------------------------------------
+	 */
+    public static Image bonus_target = spriteImages[0][11];
+    public static Image bonus_goddess_mark = spriteImages[1][11];
+    public static Image bonus_nakamoto_san = spriteImages[2][11];
+    public static Image bonus_famicom = spriteImages[3][11];
+    public static Image bonus_cola_bottle = spriteImages[4][11];
+    public static Image bonus_dezemiman_san = spriteImages[5][11];
+
+
 
     public static Image playSpriteAnimation(Image image_0, Image image_1, Image image_2, int animate, int time) {
         int temp = animate % time;

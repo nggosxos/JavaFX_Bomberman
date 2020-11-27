@@ -13,6 +13,11 @@ public class Grass extends Entity {
         boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
     }
 
+    public Grass(int x, int y) {
+        super(x, y, Sprite.grass);
+        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+    }
+
     public void update() {
 
     }

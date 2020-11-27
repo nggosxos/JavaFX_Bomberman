@@ -19,9 +19,11 @@ public abstract class Entity {
     }
 
     public abstract void update();
+
     public void render(GraphicsContext graphicsContext) {
         graphicsContext.drawImage(image, x_pos, y_pos);
     }
+
     public void remove() {
         removed = true;
     }

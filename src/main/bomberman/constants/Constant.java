@@ -1,22 +1,23 @@
 package constants;
 
+import levels.Map;
+
 public class Constant {
+    public static final int SCALE_RATIO = 2;
+    public static final int DEFAULT_SIZE = 16;
+    public static final int SCALED_SIZE = DEFAULT_SIZE * SCALE_RATIO;
 
     public static final int WIDTH = 100;
     public static final int HEIGHT = 50;
 
-    public static final int SCENE_WIDTH = 600;
-    public static final int SCENE_HEIGHT = 600;
+    public static final int SCENE_WIDTH = SCALED_SIZE * Map.mapHeight;
+    public static final int SCENE_HEIGHT = SCALED_SIZE * Map.mapHeight + 25;
 
-    public static final int CANVAS_WIDTH = 600;
-    public static final int CANVAS_HEIGHT = 600;
+    public static final int CANVAS_WIDTH = SCALED_SIZE * Map.mapWidth;
+    public static final int CANVAS_HEIGHT = SCALED_SIZE * Map.mapHeight;
 
     public static final String GAME_NAME = "BOMBERMAN_TEAM27";
     public static final String GAME_VER = "ver1.0.0.0";
-
-    public static final int SCALE_RATIO = 2;
-    public static final int DEFAULT_SIZE = 16;
-    public static final int SCALED_SIZE = DEFAULT_SIZE * SCALE_RATIO;
 
     public static final int TRANSPARENT_COLOR = 0xffff00ff;
 
