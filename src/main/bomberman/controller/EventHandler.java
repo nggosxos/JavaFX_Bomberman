@@ -3,7 +3,6 @@ package controller;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import levels.Map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,6 @@ class onKeyReleaseAction implements javafx.event.EventHandler<KeyEvent> {
     public void handle(KeyEvent event) {
         KeyCode keyCode = event.getCode();
 
-        if (EventHandler.playerController.contains(keyCode)) {
-            EventHandler.playerController.remove(keyCode);
-        }
+        EventHandler.playerController.remove(keyCode);
     }
 }

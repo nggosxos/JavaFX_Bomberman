@@ -10,12 +10,12 @@ import javafx.scene.image.Image;
 public class Grass extends Entity {
     public Grass(int x, int y, Image grass) {
         super(x, y, grass);
-        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+        boundedBox = new RectangleBox(x, y, Constant.BLOCK_SIZE, Constant.BLOCK_SIZE);
     }
 
     public Grass(int x, int y) {
         super(x, y, Sprite.grass);
-        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+        boundedBox = new RectangleBox(x, y, Constant.BLOCK_SIZE, Constant.BLOCK_SIZE);
     }
 
     public void update() {

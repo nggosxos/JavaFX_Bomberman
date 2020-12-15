@@ -105,15 +105,15 @@ public class Sprite {
     public static Image kondoria_dead = spriteImages[10][8];
 
     //OVAPI
-    public static Image opavi_left = spriteImages[6][5];
-    public static Image opavi_left_1 = spriteImages[6][6];
-    public static Image opavi_left_2 = spriteImages[6][7];
+    public static Image ovapi_left = spriteImages[6][5];
+    public static Image ovapi_left_1 = spriteImages[6][6];
+    public static Image ovapi_left_2 = spriteImages[6][7];
 
-    public static Image opavi_right = spriteImages[7][5];
-    public static Image opavi_right_1 = spriteImages[7][6];
-    public static Image opavi_right_2 = spriteImages[7][7];
+    public static Image ovapi_right = spriteImages[7][5];
+    public static Image ovapi_right_1 = spriteImages[7][6];
+    public static Image ovapi_right_2 = spriteImages[7][7];
 
-    public static Image opavi_dead = spriteImages[6][8];
+    public static Image ovapi_dead = spriteImages[6][8];
 
     //PASS
     public static Image pass_left = spriteImages[4][5];

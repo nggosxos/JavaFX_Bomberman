@@ -1,16 +1,27 @@
 package entities.enemy;
 
+import entities.enemy.moving.MovingEnemy;
 import graphics.Sprite;
 import javafx.scene.image.Image;
+
 
 public class Minvo extends Enemy {
     public Minvo(int x, int y, Image minvo) {
         super(x, y, minvo);
+        score = 800;
+        speed = 3;
+        movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
+                ableToPassBrick, ableToPassWall);
     }
 
     public Minvo(int x, int y) {
         super(x, y, Sprite.minvo_right);
+        score = 800;
+        speed = 3;
+        movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
+                ableToPassBrick, ableToPassWall);
     }
+
 
     public void playAnimation() {
         if (alive) {

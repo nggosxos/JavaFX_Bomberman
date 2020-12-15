@@ -1,40 +1,30 @@
 package entities.enemy;
 
-import constants.Constant;
-import constants.Direction;
-import entities.player.Player;
+import entities.enemy.moving.MovingEnemy;
 import graphics.Sprite;
 import javafx.scene.image.Image;
-import levels.Map;
 
 public class Kondoria extends Enemy {
 
-    private int updateTime = 100;
-    int pX, pY;
+
     public Kondoria(int x, int y, Image kondoria) {
         super(x, y, kondoria);
-        pX = x;
-        pY = y;
+        score = 1000;
+        ableToPassBrick = true;
+        speed = 2;
+        movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
+                ableToPassBrick, ableToPassWall);
     }
 
     public Kondoria(int x, int y) {
         super(x, y, Sprite.kondoria_right);
-        pX = x;
-        pY = y;
+        score = 1000;
+        ableToPassBrick = true;
+        speed = 2;
+        movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
+                ableToPassBrick, ableToPassWall);
     }
 
-    public void update() {
-        super.update();
-        Player player = Map.getPlayer();
-        if (updateTime > 0) {
-            updateTime--;
-        } else {
-            updateTime = 100;
-            pX = (player.getX_pos() / Constant.SCALED_SIZE) * Constant.SCALED_SIZE;
-            pY = (player.getY_pos() / Constant.SCALED_SIZE) * Constant.SCALED_SIZE;
-        }
-        tracingPlayer();
-    }
 
     public void playAnimation() {
         if (alive) {
@@ -56,26 +46,6 @@ public class Kondoria extends Enemy {
                     , Sprite.mob_dead_2, Sprite.mob_dead_3, animate, 30);
         }
 
-    }
-
-    public void tracingPlayer() {
-        if (x_pos > pX) {
-            move(1, Direction.LEFT);
-        } else if (x_pos < pX) {
-            move(1, Direction.RIGHT);
-        } else {
-            if (y_pos > pY) {
-                move(1, Direction.UP);
-            } else if (y_pos < pY) {
-                move(1, Direction.DOWN);
-            }
-        }
-        boundedBox.setPosition(x_pos, y_pos);
-    }
-
-    @Override
-    public boolean checkFriendlyCollisions(int x, int y) {
-        return true;
     }
 
     public Image getUpImage() {

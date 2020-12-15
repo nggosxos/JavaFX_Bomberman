@@ -7,6 +7,7 @@ import entities.RectangleBox;
 import graphics.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import levels.Map;
 
 public class Brick extends AnimatedEntity {
 
@@ -16,12 +17,12 @@ public class Brick extends AnimatedEntity {
 
     public Brick(int x, int y, Image brick) {
         super(x, y, brick);
-        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+        boundedBox = new RectangleBox(x, y, Constant.BLOCK_SIZE, Constant.BLOCK_SIZE);
     }
 
     public Brick(int x, int y) {
         super(x, y, Sprite.brick);
-        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+        boundedBox = new RectangleBox(x, y, Constant.BLOCK_SIZE, Constant.BLOCK_SIZE);
     }
 
     public void playAnimation() {
@@ -43,6 +44,9 @@ public class Brick extends AnimatedEntity {
                 removeTime--;
             } else {
                 remove();
+                if ('*' == Map.mapMatrix[y_pos / Constant.BLOCK_SIZE][x_pos / Constant.BLOCK_SIZE]) {
+                    Map.mapMatrix[y_pos / Constant.BLOCK_SIZE][x_pos / Constant.BLOCK_SIZE] = ' ';
+                }
             }
         }
         animation();

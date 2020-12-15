@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import levels.Map;
+import sound.SoundEffect;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -17,5 +18,9 @@ public class Main extends Application {
         Scene scene = Map.getScene();
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setAlwaysOnTop(true);
+        primaryStage.setResizable(false);
+        primaryStage.setFullScreen(false);
+        SoundEffect.BACKGROUND.play(true);
     }
 }

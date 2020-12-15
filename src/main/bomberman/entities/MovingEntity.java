@@ -1,31 +1,32 @@
 package entities;
 
+import constants.Constant;
 import constants.Direction;
-import entities.bomb.Bomb;
-import entities.enemy.Enemy;
 import entities.fix.Brick;
 import entities.fix.Wall;
-import entities.player.Player;
 import javafx.scene.image.Image;
 import levels.Map;
-
-import javax.swing.text.PlainDocument;
 
 public abstract class MovingEntity extends AnimatedEntity {
     protected Direction currentDirection;
     protected boolean isMoving;
     protected boolean alive;
+    protected boolean ableToPassWall = false;
+    protected boolean ableToPassBrick = false;
     protected int passAwayTime = 30;
-    protected int removeTime = 10;
+    protected int aBigStep = Constant.BLOCK_SIZE;
+    protected int speed;
+
 
     public MovingEntity(int x, int y, Image image) {
         super(x, y, image);
-        currentDirection = Direction.UP;
+        isMoving = false;
+        currentDirection = Direction.DOWN;
     }
 
     public void move(int steps, Direction direction) {
         if (alive) {
-            if (steps == 0) {
+            if (steps == 0 || direction == null) {
                 isMoving = false;
             } else {
                 switch (direction) {
@@ -74,25 +75,31 @@ public abstract class MovingEntity extends AnimatedEntity {
         }
     }
 
+    public boolean movableSteps(int steps, Direction direction) {
+        switch (direction) {
+            case UP:
+                return checkFriendlyCollisions(x_pos, y_pos - steps);
+            case DOWN:
+                return checkFriendlyCollisions(x_pos, y_pos + steps);
+            case LEFT:
+                return checkFriendlyCollisions(x_pos - steps, y_pos);
+            case RIGHT:
+                return checkFriendlyCollisions(x_pos + steps, y_pos);
+            default:
+                return false;
+        }
+    }
+
     public boolean checkFriendlyCollisions(int x, int y) {
         boundedBox.setPosition(x, y);
         for (Entity entity : Map.getBoardLayer()) {
-            if (entity instanceof Wall && isColliding(entity)) {
+            if (entity instanceof Wall && isColliding(entity) && !ableToPassWall) {
                 boundedBox.setPosition(x_pos, y_pos);
                 return false;
             }
         }
         for (Entity entity : Map.getTopLayer()) {
-            if (entity instanceof Brick && isColliding(entity)) {
-                boundedBox.setPosition(x_pos, y_pos);
-                return false;
-            }
-            if (this instanceof Enemy && entity instanceof Bomb && isColliding(entity)) {
-                boundedBox.setPosition(x_pos, y_pos);
-                return false;
-            }
-            if (this instanceof Player && entity instanceof Bomb
-                    && isColliding(entity) && !((Bomb) entity).allowToPass()) {
+            if (entity instanceof Brick && isColliding(entity) && !ableToPassBrick) {
                 boundedBox.setPosition(x_pos, y_pos);
                 return false;
             }

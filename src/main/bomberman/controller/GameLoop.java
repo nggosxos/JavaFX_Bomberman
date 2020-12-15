@@ -9,15 +9,8 @@ import levels.Map;
 
 public class GameLoop {
 
-    private static boolean running = false;
-    private static boolean paused = true;
-    private static boolean endgame = false;
+    public static void start(GraphicsContext graphicsContext) {
 
-    public static void start(final GraphicsContext graphicsContext) {
-
-        running = true;
-        paused = false;
-        endgame = false;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -31,11 +24,13 @@ public class GameLoop {
         timer.start();
     }
 
-    public static void updateGame() {
+    private static void updateGame() {
 
-        Map.life.setText("Life: " + Map.getPlayer().getLifeCount());
-        Map.bombs.setText("Bomb: " + Map.getPlayer().getRemainBombs());
+        Map.life.setText("Life: " + Player.getPlayer().getLifeCount());
+        Map.bombs.setText("Bomb: " + Player.getPlayer().getRemainBombs());
         Map.score.setText("Score: " + Map.gameScore);
+        Map.powerup.setText("M: " + Player.getPlayer().getImmortalTime());
+        Map.enemies.setText("Left: " + Map.getEnemyLayer().size());
 
         for (int i = 0; i < Map.getMidLayer().size(); i++) {
             Map.getMidLayer().get(i).update();
@@ -52,7 +47,7 @@ public class GameLoop {
         Map.removeEntity();
     }
 
-    public static void renderGame(GraphicsContext graphicsContext) {
+    private static void renderGame(GraphicsContext graphicsContext) {
 
         for (Entity entity : Map.getBoardLayer()) {
             entity.render(graphicsContext);
@@ -68,6 +63,6 @@ public class GameLoop {
             entity.render(graphicsContext);
         }
 
-        Map.getPlayer().render(graphicsContext);
+        Player.getPlayer().render(graphicsContext);
     }
 }

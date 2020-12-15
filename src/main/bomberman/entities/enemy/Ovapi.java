@@ -4,37 +4,39 @@ import entities.enemy.moving.MovingEnemy;
 import graphics.Sprite;
 import javafx.scene.image.Image;
 
+public class Ovapi extends Enemy {
 
-public class Ballom extends Enemy{
-
-    public Ballom(int x, int y, Image ballom) {
-        super(x, y, ballom);
-        score = 100;
+    public Ovapi(int x, int y, Image doll) {
+        super(x, y, doll);
+        ableToPassBrick = true;
+        score = 2000;
         speed = 1;
-        movingEnemy = new MovingEnemy(MovingEnemy.IQ.LOW,
+        movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
                 ableToPassBrick, ableToPassWall);
     }
 
-    public Ballom(int x, int y) {
-        super(x, y, Sprite.ballom_right);
-        score = 100;
+    public Ovapi(int x, int y) {
+        super(x, y, Sprite.ovapi_right);
+        ableToPassBrick = true;
+        score = 2000;
         speed = 1;
-        movingEnemy = new MovingEnemy(MovingEnemy.IQ.LOW,
+        movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
                 ableToPassBrick, ableToPassWall);
     }
+
 
     public void playAnimation() {
         if (alive) {
             switch (currentDirection) {
                 case UP:
                 case RIGHT:
-                    image = Sprite.playSpriteAnimation(Sprite.ballom_right
-                            , Sprite.ballom_right_2, Sprite.ballom_right_2, animate, 30);
+                    image = Sprite.playSpriteAnimation(Sprite.ovapi_right
+                            , Sprite.ovapi_right_2, Sprite.ovapi_right_2, animate, 60);
                     break;
                 case DOWN:
                 case LEFT:
-                    image = Sprite.playSpriteAnimation(Sprite.ballom_left
-                            , Sprite.ballom_left_1, Sprite.ballom_left_2, animate, 30);
+                    image = Sprite.playSpriteAnimation(Sprite.ovapi_left
+                            , Sprite.ovapi_left_1, Sprite.ovapi_left_2, animate, 60);
                     break;
             }
         }
@@ -45,18 +47,19 @@ public class Ballom extends Enemy{
     }
 
     public Image getUpImage() {
-        return Sprite.ballom_right;
+        return Sprite.ovapi_right;
     }
 
     public Image getDownImage() {
-        return Sprite.ballom_left;
+        return Sprite.ovapi_left;
     }
 
     public Image getRightImage() {
-        return Sprite.ballom_right;
+        return Sprite.ovapi_right;
     }
 
     public Image getLeftImage() {
-        return Sprite.ballom_left;
+        return Sprite.ovapi_left;
     }
+
 }

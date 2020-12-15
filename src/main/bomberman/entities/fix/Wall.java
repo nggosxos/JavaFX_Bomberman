@@ -9,12 +9,12 @@ import javafx.scene.image.Image;
 public class Wall extends Entity {
     public Wall(int x, int y, Image wall) {
         super(x, y, wall);
-        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+        boundedBox = new RectangleBox(x, y, Constant.BLOCK_SIZE, Constant.BLOCK_SIZE);
     }
 
     public Wall(int x, int y) {
         super(x, y, Sprite.wall);
-        boundedBox = new RectangleBox(x, y, Constant.SCALED_SIZE, Constant.SCALED_SIZE);
+        boundedBox = new RectangleBox(x, y, Constant.BLOCK_SIZE, Constant.BLOCK_SIZE);
     }
 
     public void update() {

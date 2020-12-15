@@ -4,19 +4,23 @@ import entities.enemy.moving.MovingEnemy;
 import graphics.Sprite;
 import javafx.scene.image.Image;
 
-public class Oneal extends Enemy {
-    public Oneal(int x, int y, Image oneal) {
-        super(x, y, oneal);
-        score = 200;
-        speed = 2;
+public class Pontan extends Enemy {
+
+    public Pontan(int x, int y, Image pontan) {
+        super(x, y, pontan);
+        score = 8000;
+        speed = 3;
+        ableToPassWall = true;
         movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
                 ableToPassBrick, ableToPassWall);
+
     }
 
-    public Oneal(int x, int y) {
-        super(x, y, Sprite.oneal_right);
-        score = 200;
-        speed = 2;
+    public Pontan(int x, int y) {
+        super(x, y, Sprite.pontan_right);
+        score = 8000;
+        speed = 3;
+        ableToPassWall = true;
         movingEnemy = new MovingEnemy(MovingEnemy.IQ.MEDIUM,
                 ableToPassBrick, ableToPassWall);
     }
@@ -26,13 +30,13 @@ public class Oneal extends Enemy {
             switch (currentDirection) {
                 case UP:
                 case RIGHT:
-                    image = Sprite.playSpriteAnimation(Sprite.oneal_right
-                            , Sprite.oneal_right_2, Sprite.oneal_right_2, animate, 30);
+                    image = Sprite.playSpriteAnimation(Sprite.pontan_right
+                            , Sprite.pontan_right_2, Sprite.pontan_right_2, animate, 20);
                     break;
                 case DOWN:
                 case LEFT:
-                    image = Sprite.playSpriteAnimation(Sprite.oneal_left
-                            , Sprite.oneal_left_1, Sprite.oneal_left_2, animate, 30);
+                    image = Sprite.playSpriteAnimation(Sprite.pontan_left
+                            , Sprite.pontan_left_1, Sprite.pontan_left_2, animate, 20);
                     break;
             }
         }
@@ -40,24 +44,22 @@ public class Oneal extends Enemy {
             image = Sprite.playSpriteAnimation(Sprite.mob_dead_1
                     , Sprite.mob_dead_2, Sprite.mob_dead_3, animate, 30);
         }
-
     }
 
-
-
     public Image getUpImage() {
-        return Sprite.oneal_right;
+        return Sprite.pontan_right;
     }
 
     public Image getDownImage() {
-        return Sprite.oneal_left;
+        return Sprite.pontan_left;
     }
 
     public Image getRightImage() {
-        return Sprite.oneal_right;
+        return Sprite.pontan_right;
     }
 
     public Image getLeftImage() {
-        return Sprite.oneal_left;
+        return Sprite.pontan_left;
     }
+
 }

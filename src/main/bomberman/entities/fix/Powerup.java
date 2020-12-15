@@ -3,15 +3,16 @@ package entities.fix;
 import constants.Constant;
 import entities.Entity;
 import entities.RectangleBox;
-import entities.player.Player;
 import javafx.scene.image.Image;
-import levels.Map;
 
 public abstract class Powerup extends Entity {
 
     public Powerup(int x, int y, Image powerup) {
         super(x, y, powerup);
-        boundedBox = new RectangleBox(x + 12, y + 12, Constant.SCALED_SIZE - 12, Constant.SCALED_SIZE - 12);
+        boundedBox = new RectangleBox(x + Constant.SCALED_SIZE / 8,
+                y + Constant.SCALED_SIZE / 8,
+                Constant.SCALED_SIZE * 7 / 8,
+                Constant.SCALED_SIZE * 7 / 8);
     }
 
     public abstract void checkPlayerCollision();

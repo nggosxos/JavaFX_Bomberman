@@ -1,4 +1,4 @@
-package entities.fix.powerup;
+package entities.fix.bonus;
 
 import constants.Constant;
 import entities.fix.Powerup;
@@ -8,19 +8,18 @@ import javafx.scene.image.Image;
 import levels.Map;
 import sound.SoundEffect;
 
-public class PowerupBombPass extends Powerup {
-
-    public PowerupBombPass(int x, int y, Image powerup) {
+public class GoddessMask extends Powerup {
+    public GoddessMask(int x, int y, Image powerup) {
         super(x, y, powerup);
     }
 
-    public PowerupBombPass(int x, int y) {
-        super(x, y, Sprite.powerup_bombpass);
+    public GoddessMask(int x, int y) {
+        super(x, y, Sprite.bonus_goddess_mark);
     }
 
+    @Override
     public void checkPlayerCollision() {
         if (isColliding(Player.getPlayer())) {
-            Player.getPlayer().setAbleToPassBomb();
             Map.mapMatrix[y_pos / Constant.BLOCK_SIZE][x_pos / Constant.BLOCK_SIZE] = ' ';
             new SoundEffect("/music/power_up.wav").play(false);
             remove();

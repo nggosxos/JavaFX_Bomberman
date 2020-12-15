@@ -1,25 +1,23 @@
 package entities.fix;
 
-import constants.Constant;
-import entities.Entity;
-import entities.RectangleBox;
+import entities.player.Player;
 import graphics.Sprite;
 import javafx.scene.image.Image;
 import levels.Map;
+import sound.SoundEffect;
 
-public class Portal extends Entity {
+public class Portal extends Powerup {
     public Portal(int x, int y, Image portal) {
         super(x, y, portal);
-        boundedBox = new RectangleBox(x + 12, y + 12, Constant.SCALED_SIZE - 12, Constant.SCALED_SIZE - 12);
     }
 
     public Portal(int x, int y) {
         super(x, y, Sprite.portal);
-        boundedBox = new RectangleBox(x + 12, y + 12, Constant.SCALED_SIZE - 12, Constant.SCALED_SIZE - 12);
     }
 
     public void checkPlayerCollision() {
-        if (Map.getEnemyLayer().size() == 0 && isColliding(Map.getPlayer())) {
+        if (isColliding(Player.getPlayer()) && Map.getEnemyLayer().size() == 0) {
+            new SoundEffect("/music/power_up.wav").play(false);
             Map.nextLevel();
         }
     }

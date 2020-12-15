@@ -36,14 +36,20 @@ public class Map {
 
     public static Label score;
     public static Label life;
-    public static Label fps;
+    public static Label powerup;
     public static Label bombs;
+    public static Label levels;
+    public static Label enemies;
 
-    public static String[] myMap;
+    public static char[][] myMap;
+    public static char[][] mapMatrix;
     private static final List<Enemy> enemyLayer = new ArrayList<Enemy>();
     private static final List<Entity> topLayer = new ArrayList<Entity>();
     private static final List<Entity> midLayer = new ArrayList<Entity>();
     private static final List<Entity> boardLayer = new ArrayList<Entity>();
+    public static int CANVAS_WIDTH;
+    public static int CANVAS_HEIGHT;
+
     private static int currentLevel = 1;
 
     public static int gameScore = 0;
@@ -58,41 +64,52 @@ public class Map {
     }
 
     private static void initGame() {
-        createMap(1);
         root = new Group();
         scene = new Scene(root, Constant.SCENE_WIDTH, Constant.SCENE_HEIGHT);
-        canvas = new Canvas(Constant.CANVAS_WIDTH, Constant.CANVAS_HEIGHT);
-        canvas.setLayoutY(25);
+        canvas = new Canvas();
         initLabel();
-        root.getChildren().addAll(canvas, score, life, fps, bombs);
+        root.getChildren().addAll(canvas, score, life, powerup, bombs, levels, enemies);
         graphicsContext = canvas.getGraphicsContext2D();
+        createMap(currentLevel);
         GameLoop.start(getGraphicsContext());
         EventHandler.attachEventHandler(scene);
     }
-    
+
     private static void initLabel() {
         score = new Label("Score");
         score.setFont(new Font("", 18));
-        score.setPrefWidth(100);
+        score.setPrefWidth(150);
         score.setPrefHeight(25);
+
+        enemies = new Label("Enemies");
+        enemies.setFont(new Font("", 18));
+        enemies.setPrefWidth(100);
+        enemies.setPrefHeight(25);
+        enemies.setLayoutX(150);
 
         life = new Label("Life");
         life.setFont(new Font("", 18));
         life.setPrefWidth(100);
         life.setPrefHeight(25);
-        life.setLayoutX(100);
+        life.setLayoutX(250);
 
         bombs = new Label("Bomb");
         bombs.setFont(new Font("", 18));
         bombs.setPrefWidth(100);
         bombs.setPrefHeight(25);
-        bombs.setLayoutX(200);
+        bombs.setLayoutX(350);
 
-        fps = new Label("FPS");
-        fps.setFont(new Font("", 18));
-        fps.setPrefWidth(100);
-        fps.setPrefHeight(25);
-        fps.setLayoutX(300);
+        powerup = new Label("");
+        powerup.setFont(new Font("", 18));
+        powerup.setPrefWidth(100);
+        powerup.setPrefHeight(25);
+        powerup.setLayoutX(450);
+
+        levels = new Label("");
+        levels.setFont(new Font("", 18));
+        levels.setPrefWidth(100);
+        levels.setPrefHeight(25);
+        levels.setLayoutX(550);
     }
 
     public static void initScene() {
@@ -110,40 +127,39 @@ public class Map {
         return graphicsContext;
     }
 
-    public static Player getPlayer() {
-        return player;
-    }
-
     public static void createMap(int level) {
+        levels.setText("Level: " + level);
         clearMap();
-        loadMapFile("levels/Level" + level + ".txt");
+        loadMapFile("/levels/Level" + level + ".txt");
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
-                char c = myMap[i].charAt(j);
+                char c = myMap[i][j];
                 addEntity(c, j * Constant.SCALED_SIZE, i * Constant.SCALED_SIZE);
             }
         }
+        canvas.setHeight(CANVAS_HEIGHT);
+        canvas.setWidth(CANVAS_WIDTH);
     }
 
     public static void setCameraView() {
         if (player.getX_pos() < Constant.SCENE_WIDTH / 2) {
             canvas.setLayoutX(0);
-        } else if (player.getX_pos() > Constant.CANVAS_WIDTH - Constant.SCENE_WIDTH / 2) {
-            canvas.setLayoutX(Constant.SCENE_WIDTH - Constant.CANVAS_WIDTH);
+        } else if (player.getX_pos() > CANVAS_WIDTH - Constant.SCENE_WIDTH / 2) {
+            canvas.setLayoutX(Constant.SCENE_WIDTH - CANVAS_WIDTH);
         } else {
             canvas.setLayoutX(Constant.SCENE_WIDTH / 2.0 - player.getX_pos());
         }
         if (player.getY_pos() < Constant.SCENE_HEIGHT / 2) {
-            canvas.setLayoutY(25);
-        } else if (player.getY_pos() > Constant.CANVAS_HEIGHT - Constant.SCENE_HEIGHT / 2) {
-            canvas.setLayoutY(Constant.SCENE_HEIGHT - Constant.CANVAS_HEIGHT);
+            canvas.setLayoutY(0);
+        } else if (player.getY_pos() > CANVAS_HEIGHT - Constant.SCENE_HEIGHT / 2) {
+            canvas.setLayoutY(Constant.SCENE_HEIGHT - CANVAS_HEIGHT);
         } else {
             canvas.setLayoutY(Constant.SCENE_HEIGHT / 2.0 - player.getY_pos());
         }
     }
 
     public static void clearMap() {
-        player = null;
+        graphicsContext.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         enemyLayer.clear();
         topLayer.clear();
         midLayer.clear();
@@ -152,15 +168,17 @@ public class Map {
 
     public static void nextMap() {
         if (currentLevel <= 5) {
-            currentLevel++;
+            currentLevel += 1;
         } else {
             currentLevel = 1;
         }
     }
 
     public static void nextLevel() {
+        clearMap();
         nextMap();
         createMap(currentLevel);
+        player.setBombCount();
     }
 
     public static void resetLevel() {
@@ -263,10 +281,11 @@ public class Map {
                 boardLayer.add(new Grass(x, y));
                 midLayer.add(new PowerupBombPass(x, y));
                 topLayer.add(new Brick(x, y));
+                break;
             //player
             case 'p':
                 boardLayer.add(new Grass(x, y));
-                player = Player.setPlayer(x, y);
+                player = Player.setPlayer(x, y, false);
                 break;
             //enemies
             case '1':
@@ -289,21 +308,46 @@ public class Map {
                 boardLayer.add(new Grass(x, y));
                 enemyLayer.add(new Kondoria(x, y));
                 break;
+            case '6':
+                boardLayer.add(new Grass(x, y));
+                enemyLayer.add(new Ovapi(x, y));
+                break;
+            case '7':
+                boardLayer.add(new Grass(x, y));
+                enemyLayer.add(new Pass(x, y));
+                break;
+            case '8':
+                boardLayer.add(new Grass(x, y));
+                enemyLayer.add(new Pontan(x, y));
+                break;
         }
     }
 
     public static void loadMapFile(String filePath) {
         try {
-            URL fileMapPath = Map.class.getResource("/" + filePath);
+            URL fileMapPath = Map.class.getResource(filePath);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fileMapPath.openStream()));
             String data = reader.readLine();
             StringTokenizer tokens = new StringTokenizer(data);
             mapLevel = Integer.parseInt(tokens.nextToken());
             mapHeight = Integer.parseInt(tokens.nextToken());
             mapWidth = Integer.parseInt(tokens.nextToken());
-            myMap = new String[mapHeight];
+            CANVAS_HEIGHT = mapHeight * Constant.BLOCK_SIZE;
+            CANVAS_WIDTH = mapWidth * Constant.BLOCK_SIZE;
+            myMap = new char[mapHeight][mapWidth];
+            mapMatrix = new char[mapHeight][mapWidth];
             for (int i = 0; i < mapHeight; i++) {
-                myMap[i] = reader.readLine().substring(0, mapWidth);
+                char[] temp = reader.readLine().toCharArray();
+                for (int j = 0; j < mapWidth; j++) {
+                    myMap[i][j] = temp[j];
+                    if ('#' == temp[j] || '*' == temp[j] || 'x' == temp[j]
+                            || 'b' == temp[j] || 'f' == temp[j] || 's' == temp[j]
+                            || 'w' == temp[j] || 'm' == temp[j] || 'n' == temp[j]) {
+                        mapMatrix[i][j] = temp[j];
+                    } else {
+                        mapMatrix[i][j] = ' ';
+                    }
+                }
             }
         } catch (IOException e) {
             e.fillInStackTrace();

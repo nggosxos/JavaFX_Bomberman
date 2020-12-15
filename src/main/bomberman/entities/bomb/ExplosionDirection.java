@@ -5,7 +5,6 @@ import constants.Direction;
 import entities.Entity;
 import entities.fix.Brick;
 import entities.fix.Wall;
-import javafx.scene.canvas.GraphicsContext;
 import levels.Map;
 
 public class ExplosionDirection {
@@ -27,7 +26,7 @@ public class ExplosionDirection {
         createBombExplosion();
     }
 
-    public int calculateExplosionRadius() {
+    private int calculateExplosionRadius() {
         int r = 0;
         int x = x_init;
         int y = y_init;
@@ -59,7 +58,7 @@ public class ExplosionDirection {
         return r;
     }
 
-    public void createBombExplosion() {
+    private void createBombExplosion() {
         boolean last = false;
         int x = x_init;
         int y = y_init;
